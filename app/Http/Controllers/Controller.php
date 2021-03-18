@@ -20,6 +20,7 @@ class Controller extends BaseController
 
 		$pdf = $snappdf
 		    ->setHtml($request->input('html'))
+		    ->waitBeforePrinting(100)
 		    ->generate();
 
     	return Response::make($pdf, 200, [
