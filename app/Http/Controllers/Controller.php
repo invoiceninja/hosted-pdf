@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 use Turbo124\Beacon\Facades\LightLogs;
 
@@ -36,5 +37,13 @@ class Controller extends BaseController
 		    'Content-Type' => 'application/pdf',
 		    'Content-Disposition' => 'inline; filename="ninja.pdf"'
 		]);
+    }
+
+    public function version()
+    {
+    	$version = Cache::get('version');
+
+    	return response($version, 200)
+			->header('Content-Type', 'text/plain');
     }
 }
