@@ -25,13 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-        // 
-        $schedule->call(function () {
-            $version_file = trim(file_get_contents('https://raw.githubusercontent.com/invoiceninja/invoiceninja/v5-stable/VERSION.txt'));
-            Cache::put('version', $version_file);
-        })->hourly();
-        
+        $schedule->command('ninja:version')->hourly()->withoutOverlapping();
     }
 
     /**
