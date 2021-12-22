@@ -20,4 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/', [Controller::class, 'pdf']);
+Route::post('/html', [Controller::class, 'html']);
+
 Route::get('/version', [Controller::class, 'version']);

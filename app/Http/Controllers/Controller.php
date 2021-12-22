@@ -39,6 +39,30 @@ class Controller extends BaseController
 		]);
     }
 
+    public function html(Request $request)
+    {
+
+		$pdf_created = new PdfCreated();
+        $pdf_created->string_metric5 = 'license';
+        $pdf_created->int_metric1 = 1;
+
+		LightLogs::create($pdf_created)
+                 ->batch();
+
+		$snappdf = new \Beganovich\Snappdf\Snappdf();
+
+		$pdf = $snappdf
+		    ->setUrl($request->input('url'))
+		    ->waitBeforePrinting(100)
+		    ->generate();
+
+    	return Response::make(base64_encode($pdf), 200, [
+		    'Content-Type' => 'application/pdf',
+		    'Content-Disposition' => 'inline; filename="ninja.pdf"'
+		]);
+
+    }
+
     public function version()
     {
     	$version = Cache::get('version');
