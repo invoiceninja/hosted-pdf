@@ -24,7 +24,7 @@ class Controller extends BaseController
         $pdf_created->int_metric1 = 1;
 
 		LightLogs::create($pdf_created)
-                 ->batch();
+                 ->queue();
 
 		$snappdf = new \Beganovich\Snappdf\Snappdf();
 
@@ -47,7 +47,7 @@ class Controller extends BaseController
         $pdf_created->int_metric1 = 1;
 
 		LightLogs::create($pdf_created)
-                 ->batch();
+                 ->queue();
 
 		$snappdf = new \Beganovich\Snappdf\Snappdf();
 
