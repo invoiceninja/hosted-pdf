@@ -38,7 +38,7 @@ class NinjaVersion extends Command
      */
     public function handle()
     {
-        $version_file = trim(file_get_contents('https://raw.githubusercontent.com/invoiceninja/invoiceninja/v5-stable/VERSION.txt'));
+        $version_file = trim(file_get_contents('https://raw.githubusercontent.com/invoiceninja/invoiceninja/v5-develop/VERSION.txt'));
         Cache::put('version', $version_file);
     }
 
