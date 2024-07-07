@@ -28,11 +28,10 @@ class Controller extends BaseController
 
 		$snappdf = new \Beganovich\Snappdf\Snappdf();
 
-		$html = str_replace(['file:/', 'iframe', 'iframe', '&lt;object', '<object', '127.0.0.1', 'localhost'], ['','','','','','',''], $request->input('html'));
+		$html = str_ireplace(['file:/', 'iframe', 'iframe', '&lt;embed', '<embed', '&lt;object', '<object', '127.0.0.1', 'localhost'], ['','','','','','',''], $request->input('html'));
 
 		$pdf = $snappdf
 		    ->setHtml($html)
-		    // ->waitBeforePrinting(100)
 		    ->generate();
 
     	return Response::make($pdf, 200, [
