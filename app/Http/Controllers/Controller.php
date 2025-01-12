@@ -16,6 +16,59 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+	$flags = [
+		'--headless',
+		'--no-sandbox',
+		'--disable-gpu',
+		'--no-margins',
+		'--hide-scrollbars',
+		'--no-first-run',
+		'--no-default-browser-check',
+
+		// PDF-specific settings
+		'--print-to-pdf-no-header',
+		'--no-pdf-header-footer',
+
+		// Security settings
+		'--disable-web-security=false',
+		'--block-insecure-private-network-requests',
+		'--block-port=22,25,465,587',
+		'--disable-usb',
+		'--disable-webrtc',
+		'--block-new-web-contents',
+		'--deny-permission-prompts',
+		'--ignore-certificate-errors',
+
+		// Performance & resource settings
+		'--disable-dev-shm-usage',
+		'--disable-software-rasterizer',
+		'--run-all-compositor-stages-before-draw',
+		'--disable-renderer-backgrounding',
+		'--disable-background-timer-throttling',
+		'--disable-background-networking',
+		'--disable-domain-reliability',
+		'--disable-ipc-flooding-protection',
+
+		// Feature disabling
+		'--disable-translate',
+		'--disable-extensions',
+		'--disable-sync',
+		'--disable-default-apps',
+		'--disable-plugins',
+		'--disable-notifications',
+		'--disable-device-discovery-notifications',
+		'--disable-reading-from-canvas',
+		'--safebrowsing-disable-auto-update',
+		'--disable-features=SharedArrayBuffer,OutOfBlinkCors,NetworkService,NetworkServiceInProcess',
+
+		'--virtual-time-budget=2000',
+		'--font-render-hinting=medium',
+		'--enable-font-antialiasing',
+		
+		// Debug/Output
+		'--dump-dom',
+	];
+
     public function pdf(Request $request)
     {
 
@@ -28,7 +81,10 @@ class Controller extends BaseController
 
 		$snappdf = new \Beganovich\Snappdf\Snappdf();
 
-		$html = str_ireplace(['file:/', 'iframe', 'iframe', '&lt;embed', '<embed', '&lt;object', '<object', '127.0.0.1', 'localhost'], ['','','','','','',''], $request->input('html'));
+		$html = str_ireplace(['file:/', 'iframe', 'iframe', '&lt;embed', '<embed', '&lt;object', '<object', '127.0.0.1', 'localhost','.env','/etc/'], [''], $request->input('html'));
+		.
+		$pdf->clearChromiumArguments();
+		$pdf->addChromiumArguments(implode(' ', $chrome_flags));
 
 		$pdf = $snappdf
 		    ->setHtml($html)
@@ -67,6 +123,11 @@ class Controller extends BaseController
     public function version()
     {
     	$version = Cache::get('version');
+
+		if(!$version || strlen($version ?? '') <=1){
+			$version = trim(file_get_contents('https://raw.githubusercontent.com/invoiceninja/invoiceninja/v5-develop/VERSION.txt'));
+			Cache::forever('version', $version);
+		}
 
     	return response($version, 200)
 			->header('Content-Type', 'text/plain');
