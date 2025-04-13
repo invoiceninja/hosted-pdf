@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "beganovich/snappdf": "^5",
+        "beganovich/snappdf": "dev-master",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^11",
         "predis/predis": "^2",
@@ -57,5 +57,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/beganovich/snappdf.git"
+        }
+    ]
 }

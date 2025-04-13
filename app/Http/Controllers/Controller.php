@@ -82,9 +82,9 @@ class Controller extends BaseController
 		$snappdf = new \Beganovich\Snappdf\Snappdf();
 
 		$html = str_ireplace(['file:/', 'iframe', 'iframe', '&lt;embed', '<embed', '&lt;object', '<object', '127.0.0.1', 'localhost','.env','/etc/'], [''], $request->input('html'));
-		.
-		$pdf->clearChromiumArguments();
-		$pdf->addChromiumArguments(implode(' ', $chrome_flags));
+		
+		// $pdf->clearChromiumArguments();
+		// $pdf->addChromiumArguments(implode(' ', $chrome_flags));
 
 		$pdf = $snappdf
 		    ->setHtml($html)
